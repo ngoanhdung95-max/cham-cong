@@ -1,0 +1,594 @@
+/* ===================================================================
+   MULTI-LAUNCHER THEMES SYSTEM
+   5 Completely Distinct Design Languages via CSS Variables & Body Class
+   =================================================================== */
+
+/* ===================================================================
+   LAUNCHER 1: 3D / SKEUOMORPHIC (TACTILE LUXURY 3D - DEFAULT)
+   Đặc trưng: Bề mặt nổi khối chân thực, đổ bóng sâu đa lớp (deep shadows),
+   vùng sáng phản xạ (specular highlight), xúc giác bấm chân thực,
+   sẵn khung viền sâu để người dùng đặt icon 3D.
+   =================================================================== */
+body.theme-skeuomorphic {
+  --body-bg: radial-gradient(circle at 50% 20%, #252b36 0%, #15181f 70%, #0d0f14 100%);
+  --launcher-bg: linear-gradient(170deg, #242933 0%, #1a1e26 50%, #13161c 100%);
+  --launcher-shell-shadow: 
+    0 25px 60px -10px rgba(0, 0, 0, 0.8),
+    0 50px 100px -20px rgba(0, 0, 0, 0.9),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.8);
+  --launcher-shell-border: 4px solid #333a47;
+  --launcher-backdrop-filter: none;
+
+  --status-text-color: #cbd5e1;
+  --pill-bg: linear-gradient(180deg, #2c323f 0%, #191c24 100%);
+  --pill-text: #94a3b8;
+  --pill-border: 1px solid #414b5d;
+
+  /* Card / Hero Widget */
+  --card-bg: linear-gradient(160deg, #2c3340 0%, #1c212b 100%);
+  --card-border-radius: 20px;
+  --card-shadow: 
+    0 12px 28px -4px rgba(0, 0, 0, 0.6),
+    0 6px 12px -2px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.6);
+  --card-border: 1px solid #3d4657;
+  --card-backdrop-filter: none;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-hero: #ffffff;
+  --hero-clock-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+
+  /* Search Bar */
+  --search-bg: linear-gradient(180deg, #14171f 0%, #1e232d 100%);
+  --search-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), inset 0 1px 2px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.1);
+  --search-border: 1px solid #282f3d;
+  --search-border-radius: 14px;
+  --text-placeholder: #64748b;
+
+  /* Icons: 3D Bezel & Tactile Push */
+  --icon-slot-size: 64px;
+  --icon-radius: 18px;
+  --icon-bg: linear-gradient(160deg, #374052 0%, #1e232e 100%);
+  --icon-border: 1px solid rgba(255, 255, 255, 0.2);
+  --icon-shadow: 
+    0 8px 16px -2px rgba(0, 0, 0, 0.6),
+    0 4px 8px -2px rgba(0, 0, 0, 0.5),
+    inset 0 2px 2px rgba(255, 255, 255, 0.35),
+    inset 0 -3px 4px rgba(0, 0, 0, 0.7);
+  --icon-gloss-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(0, 0, 0, 0) 51%);
+  --app-title-color: #e2e8f0;
+  --app-title-shadow: 0 2px 4px #000;
+
+  /* Dock */
+  --dock-bg: linear-gradient(180deg, #252b36 0%, #161a22 100%);
+  --dock-shadow: 
+    0 -8px 25px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.8);
+  --dock-border: 1px solid #3d4657;
+  --dock-border-radius: 26px;
+  --dock-btn-radius: 14px;
+  --dock-btn-bg: linear-gradient(160deg, #2d3442 0%, #1b1f28 100%);
+  --dock-btn-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  --dock-btn-border: 1px solid #3a4455;
+  --dock-btn-color: #94a3b8;
+
+  /* Accent */
+  --accent-color: #38bdf8;
+  --accent-glow: rgba(56, 189, 248, 0.4);
+  --accent-gradient: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+  --home-indicator-color: #475569;
+  --modal-bg: #1c222d;
+}
+
+body.theme-skeuomorphic .app-item:hover .app-icon {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 
+    0 14px 24px -2px rgba(0, 0, 0, 0.7),
+    inset 0 2px 3px rgba(255, 255, 255, 0.45),
+    inset 0 -3px 4px rgba(0, 0, 0, 0.7);
+}
+
+body.theme-skeuomorphic .app-item:active .app-icon,
+body.theme-skeuomorphic .dock-btn:active .dock-icon-wrapper {
+  transform: translateY(2px) scale(0.97);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    inset 0 3px 6px rgba(0, 0, 0, 0.8);
+}
+
+
+/* ===================================================================
+   LAUNCHER 2: CUTE & ROMANTIC (SWEET PASTEL & BOUNCY FLOATING DECOR)
+   Dành cho vợ đi làm thêm: Tone hồng phấn pastel, cam đào dâu tây,
+   hình khối bo tròn pill-shape mượt mà, hiệu ứng nhún nhảy nhịp nhàng
+   (bouncy cubic-bezier), hoa tim và mây lơ lửng decor bằng CSS.
+   =================================================================== */
+body.theme-cute {
+  font-family: 'Quicksand', -apple-system, sans-serif;
+  --body-bg: radial-gradient(circle at 50% 30%, #fff0f5 0%, #ffe5ec 60%, #ffd1dc 100%);
+  --launcher-bg: linear-gradient(180deg, #fff5f8 0%, #ffe8ee 50%, #ffd9e4 100%);
+  --launcher-shell-shadow: 
+    0 25px 60px -10px rgba(255, 117, 143, 0.4),
+    0 15px 35px -5px rgba(255, 179, 198, 0.5);
+  --launcher-shell-border: 6px solid #ffffff;
+  --launcher-backdrop-filter: none;
+
+  --status-text-color: #723b53;
+  --pill-bg: #ffe0e9;
+  --pill-text: #d94676;
+  --pill-border: 1.5px solid #ffb3c6;
+
+  /* Card / Hero Widget */
+  --card-bg: linear-gradient(135deg, #ffffff 0%, #fff0f5 100%);
+  --card-border-radius: 32px; /* Pill Shape */
+  --card-shadow: 
+    0 16px 30px -8px rgba(255, 143, 171, 0.35),
+    0 4px 10px rgba(255, 182, 193, 0.2);
+  --card-border: 2px solid #ffffff;
+  --card-backdrop-filter: none;
+
+  --text-primary: #59253e;
+  --text-secondary: #9c5c78;
+  --text-hero: #ff4d6d;
+  --hero-clock-shadow: 0 2px 8px rgba(255, 77, 109, 0.2);
+
+  /* Search Bar */
+  --search-bg: #ffffff;
+  --search-shadow: 0 6px 16px rgba(255, 154, 178, 0.18);
+  --search-border: 2px solid #ffccd5;
+  --search-border-radius: 9999px; /* Pill */
+  --text-placeholder: #c48b9f;
+
+  /* Icons: Pastel Squircle & Bouncy Spring */
+  --icon-slot-size: 64px;
+  --icon-radius: 26px; /* Pill-like Squircle */
+  --icon-bg: linear-gradient(145deg, #ffffff, #ffe3ec);
+  --icon-border: 2px solid #ffffff;
+  --icon-shadow: 0 10px 20px -3px rgba(255, 107, 139, 0.25);
+  --icon-gloss-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 60%);
+  --app-title-color: #723b53;
+  --app-title-shadow: none;
+
+  /* Cute Gradients */
+  --icon-grad-attendance: linear-gradient(135deg, #ff758f, #ff4d6d);
+  --icon-grad-payroll:    linear-gradient(135deg, #ffb703, #fb8500);
+  --icon-grad-schedule:   linear-gradient(135deg, #c77dff, #9d4edd);
+  --icon-grad-analytics:  linear-gradient(135deg, #ff8fa3, #ff477e);
+  --icon-grad-employees:  linear-gradient(135deg, #4ea8de, #0077b6);
+  --icon-grad-leaves:     linear-gradient(135deg, #ff99c8, #f38ba8);
+  --icon-grad-drive:      linear-gradient(135deg, #38b000, #70e000);
+  --icon-grad-theme:      linear-gradient(135deg, #f72585, #b5179e);
+
+  /* Dock */
+  --dock-bg: rgba(255, 255, 255, 0.9);
+  --dock-shadow: 0 12px 32px rgba(255, 117, 143, 0.3);
+  --dock-border: 2px solid #ffffff;
+  --dock-border-radius: 9999px;
+  --dock-btn-radius: 9999px;
+  --dock-btn-bg: #fff0f5;
+  --dock-btn-shadow: 0 4px 10px rgba(255, 154, 178, 0.2);
+  --dock-btn-border: 1px solid #ffccd5;
+  --dock-btn-color: #b05d7f;
+
+  /* Accent */
+  --accent-color: #ff4d6d;
+  --accent-glow: rgba(255, 77, 109, 0.4);
+  --accent-gradient: linear-gradient(135deg, #ff758f, #ff4d6d);
+  --home-indicator-color: #ff8fa3;
+  --modal-bg: #fff5f8;
+}
+
+/* Cute Bouncy Spring Animations */
+body.theme-cute .app-item {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+body.theme-cute .app-item:hover {
+  transform: translateY(-6px) scale(1.08);
+}
+
+body.theme-cute .app-item:active {
+  transform: scale(0.92);
+}
+
+/* Floating Hearts & Clouds for Theme Cute */
+body.theme-cute .ambient-decor.decor-1 {
+  display: block;
+  position: absolute;
+  top: 15%;
+  left: 8%;
+  font-size: 26px;
+  opacity: 0.75;
+  animation: floatingHearts 6s infinite ease-in-out;
+  pointer-events: none;
+}
+body.theme-cute .ambient-decor.decor-1::before { content: "💖"; }
+
+body.theme-cute .ambient-decor.decor-2 {
+  display: block;
+  position: absolute;
+  bottom: 22%;
+  right: 10%;
+  font-size: 24px;
+  opacity: 0.65;
+  animation: floatingHearts 7s infinite 1.5s ease-in-out;
+  pointer-events: none;
+}
+body.theme-cute .ambient-decor.decor-2::before { content: "🌸"; }
+
+body.theme-cute .ambient-decor.decor-3 {
+  display: block;
+  position: absolute;
+  top: 40%;
+  right: 6%;
+  font-size: 28px;
+  opacity: 0.55;
+  animation: floatingHearts 8s infinite 2.5s ease-in-out;
+  pointer-events: none;
+}
+body.theme-cute .ambient-decor.decor-3::before { content: "☁️"; }
+
+@keyframes floatingHearts {
+  0% { transform: translateY(0) rotate(0deg) scale(1); }
+  50% { transform: translateY(-20px) rotate(8deg) scale(1.1); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+
+
+/* ===================================================================
+   LAUNCHER 3: GLASSMORPHISM (FROSTED GLASS & TRANSLUCENT AURORA)
+   Đặc trưng: Các khối có độ trong suốt cao (backdrop-filter: blur(20px)),
+   viền sáng mỏng (1px translucent border), ánh sáng cực quang lung linh.
+   =================================================================== */
+body.theme-glassmorphism {
+  --body-bg: radial-gradient(circle at 20% 30%, #3b0764 0%, #0f172a 60%, #030712 100%);
+  --launcher-bg: rgba(255, 255, 255, 0.08);
+  --launcher-shell-shadow: 
+    0 25px 60px -10px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(168, 85, 247, 0.25);
+  --launcher-shell-border: 1px solid rgba(255, 255, 255, 0.25);
+  --launcher-backdrop-filter: blur(25px) saturate(180%);
+
+  --status-text-color: #f1f5f9;
+  --pill-bg: rgba(255, 255, 255, 0.12);
+  --pill-text: #e2e8f0;
+  --pill-border: 1px solid rgba(255, 255, 255, 0.2);
+
+  /* Card / Hero Widget */
+  --card-bg: rgba(255, 255, 255, 0.12);
+  --card-border-radius: 24px;
+  --card-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
+  --card-border: 1px solid rgba(255, 255, 255, 0.25);
+  --card-backdrop-filter: blur(20px);
+
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-hero: #ffffff;
+  --hero-clock-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+
+  /* Search Bar */
+  --search-bg: rgba(255, 255, 255, 0.09);
+  --search-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  --search-border: 1px solid rgba(255, 255, 255, 0.2);
+  --search-border-radius: 20px;
+  --search-backdrop-filter: blur(16px);
+  --text-placeholder: #94a3b8;
+
+  /* Icons */
+  --icon-slot-size: 64px;
+  --icon-radius: 20px;
+  --icon-bg: rgba(255, 255, 255, 0.15);
+  --icon-border: 1px solid rgba(255, 255, 255, 0.3);
+  --icon-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  --icon-gloss-overlay: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 100%);
+  --app-title-color: #f8fafc;
+  --app-title-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+
+  /* Dock */
+  --dock-bg: rgba(255, 255, 255, 0.1);
+  --dock-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --dock-border: 1px solid rgba(255, 255, 255, 0.25);
+  --dock-border-radius: 28px;
+  --dock-backdrop-filter: blur(24px);
+  --dock-btn-radius: 18px;
+  --dock-btn-bg: rgba(255, 255, 255, 0.1);
+  --dock-btn-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  --dock-btn-border: 1px solid rgba(255, 255, 255, 0.15);
+  --dock-btn-color: #e2e8f0;
+
+  /* Accent */
+  --accent-color: #c084fc;
+  --accent-glow: rgba(192, 132, 252, 0.5);
+  --accent-gradient: linear-gradient(135deg, #a855f7, #ec4899);
+  --home-indicator-color: rgba(255, 255, 255, 0.6);
+  --modal-bg: rgba(20, 24, 40, 0.85);
+}
+
+/* Glassmorphism Aurora Ambient Glow Orbs */
+body.theme-glassmorphism .ambient-decor.decor-1 {
+  display: block;
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.45) 0%, rgba(168, 85, 247, 0) 70%);
+  filter: blur(40px);
+  animation: auroraPulse1 10s infinite alternate ease-in-out;
+  pointer-events: none;
+}
+
+body.theme-glassmorphism .ambient-decor.decor-2 {
+  display: block;
+  position: absolute;
+  bottom: 15%;
+  right: 15%;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.35) 0%, rgba(236, 72, 153, 0) 70%);
+  filter: blur(50px);
+  animation: auroraPulse2 12s infinite alternate ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes auroraPulse1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, 30px) scale(1.2); }
+}
+
+@keyframes auroraPulse2 {
+  0% { transform: translate(0, 0) scale(1.1); }
+  100% { transform: translate(-30px, -40px) scale(0.9); }
+}
+
+
+/* ===================================================================
+   LAUNCHER 4: NEUMORPHISM (SOFT UI - DẬP NỔI / KHOÉT CHÌM)
+   Đặc trưng: Bề mặt mềm mại không viền sắc, hiệu ứng ánh sáng kép
+   (dual light shadows: 1 sáng 1 tối) tạo cảm giác dập nổi hoặc khoét chìm
+   chân thực trên nền gốm sứ mịn màng.
+   =================================================================== */
+body.theme-neumorphism {
+  --neu-base: #e0e5ec;
+  --neu-dark: #b8b9be;
+  --neu-light: #ffffff;
+  
+  --body-bg: #e0e5ec;
+  --launcher-bg: #e0e5ec;
+  --launcher-shell-shadow: 
+    18px 18px 36px var(--neu-dark),
+    -18px -18px 36px var(--neu-light);
+  --launcher-shell-border: 4px solid #e0e5ec;
+  --launcher-backdrop-filter: none;
+
+  --status-text-color: #4a5568;
+  --pill-bg: #e0e5ec;
+  --pill-text: #4a5568;
+  --pill-border: none;
+
+  /* Card / Hero Widget: Extruded */
+  --card-bg: #e0e5ec;
+  --card-border-radius: 24px;
+  --card-shadow: 
+    8px 8px 18px var(--neu-dark),
+    -8px -8px 18px var(--neu-light);
+  --card-border: none;
+  --card-backdrop-filter: none;
+
+  --text-primary: #2d3748;
+  --text-secondary: #718096;
+  --text-hero: #2d3748;
+  --hero-clock-shadow: none;
+
+  /* Search Bar: Sunken (Khoét Chìm) */
+  --search-bg: #e0e5ec;
+  --search-shadow: 
+    inset 4px 4px 8px var(--neu-dark),
+    inset -4px -4px 8px var(--neu-light);
+  --search-border: none;
+  --search-border-radius: 18px;
+  --text-placeholder: #a0aec0;
+
+  /* Icons: Soft Extruded */
+  --icon-slot-size: 64px;
+  --icon-radius: 20px;
+  --icon-bg: #e0e5ec;
+  --icon-border: none;
+  --icon-shadow: 
+    6px 6px 12px var(--neu-dark),
+    -6px -6px 12px var(--neu-light);
+  --icon-gloss-overlay: none;
+  --app-title-color: #4a5568;
+  --app-title-shadow: none;
+
+  /* Dock */
+  --dock-bg: #e0e5ec;
+  --dock-shadow: 
+    8px 8px 18px var(--neu-dark),
+    -8px -8px 18px var(--neu-light);
+  --dock-border: none;
+  --dock-border-radius: 26px;
+  --dock-btn-radius: 16px;
+  --dock-btn-bg: #e0e5ec;
+  --dock-btn-shadow: 
+    4px 4px 8px var(--neu-dark),
+    -4px -4px 8px var(--neu-light);
+  --dock-btn-border: none;
+  --dock-btn-color: #4a5568;
+
+  /* Accent */
+  --accent-color: #4f46e5;
+  --accent-glow: rgba(79, 70, 229, 0.3);
+  --accent-gradient: linear-gradient(135deg, #6366f1, #4f46e5);
+  --home-indicator-color: #a0aec0;
+  --modal-bg: #e0e5ec;
+}
+
+body.theme-neumorphism .app-item:active .app-icon,
+body.theme-neumorphism .dock-btn:active .dock-icon-wrapper {
+  /* Sunken click effect */
+  box-shadow: 
+    inset 4px 4px 8px var(--neu-dark),
+    inset -4px -4px 8px var(--neu-light) !important;
+  transform: scale(0.96);
+}
+
+body.theme-neumorphism .modal-dialog {
+  background: #e0e5ec;
+  color: #2d3748;
+  box-shadow: 
+    20px 20px 40px var(--neu-dark),
+    -20px -20px 40px var(--neu-light);
+  border: none;
+}
+
+body.theme-neumorphism .modal-header,
+body.theme-neumorphism .modal-footer,
+body.theme-neumorphism .settings-tabs {
+  border-color: #cbd5e1;
+}
+
+body.theme-neumorphism .modal-title,
+body.theme-neumorphism .section-title {
+  color: #1a202c;
+}
+
+body.theme-neumorphism .theme-card {
+  background: #e0e5ec;
+  border: none;
+  box-shadow: 
+    5px 5px 12px var(--neu-dark),
+    -5px -5px 12px var(--neu-light);
+}
+
+body.theme-neumorphism .theme-card.active {
+  box-shadow: 
+    inset 4px 4px 8px var(--neu-dark),
+    inset -4px -4px 8px var(--neu-light);
+}
+
+body.theme-neumorphism .theme-name {
+  color: #2d3748;
+}
+
+
+/* ===================================================================
+   LAUNCHER 5: CYBERPUNK DARK MODE (HIGH-VOLTAGE NEON & SCANLINES)
+   Đặc trưng: Nền đen OLED tuyền (#050508), đường viền sắc nhọn
+   vát góc công nghệ, Neon Cyan (#00f0ff) & Neon Magenta (#ff0055)
+   chói lòa, scanline quét ngang và hiệu ứng Glitch vi mạch.
+   =================================================================== */
+body.theme-cyberpunk {
+  font-family: 'Orbitron', 'Inter', monospace;
+  --body-bg: #030305;
+  --launcher-bg: #07080f;
+  --launcher-shell-shadow: 
+    0 0 40px rgba(0, 240, 255, 0.35),
+    0 0 100px rgba(255, 0, 85, 0.2);
+  --launcher-shell-border: 2px solid #00f0ff;
+  --launcher-backdrop-filter: none;
+
+  --status-text-color: #00f0ff;
+  --pill-bg: #0d111d;
+  --pill-text: #ffe600;
+  --pill-border: 1px solid #ffe600;
+
+  /* Card / Hero Widget: Chamfered Neon Border */
+  --card-bg: #0a0d17;
+  --card-border-radius: 6px;
+  --card-shadow: 
+    0 0 15px rgba(0, 240, 255, 0.4),
+    inset 0 0 12px rgba(0, 240, 255, 0.15);
+  --card-border: 1.5px solid #00f0ff;
+  --card-backdrop-filter: none;
+
+  --text-primary: #00f0ff;
+  --text-secondary: #ff0055;
+  --text-hero: #ffe600;
+  --hero-clock-shadow: 0 0 10px #ffe600, 0 0 20px #ffe600;
+
+  /* Search Bar */
+  --search-bg: #05060b;
+  --search-shadow: inset 0 0 10px rgba(255, 0, 85, 0.4);
+  --search-border: 1px solid #ff0055;
+  --search-border-radius: 4px;
+  --text-placeholder: #526079;
+
+  /* Icons: Sharp Tech Matrix & Neon Glow */
+  --icon-slot-size: 64px;
+  --icon-radius: 6px; /* Sharp corners */
+  --icon-bg: #0b0f1c;
+  --icon-border: 1px solid #00f0ff;
+  --icon-shadow: 0 0 14px rgba(0, 240, 255, 0.5);
+  --icon-gloss-overlay: linear-gradient(180deg, rgba(0, 240, 255, 0.2) 0%, transparent 60%);
+  --app-title-color: #00f0ff;
+  --app-title-shadow: 0 0 6px #00f0ff;
+
+  /* Cyberpunk Colors */
+  --icon-grad-attendance: linear-gradient(135deg, #00f0ff, #0088ff);
+  --icon-grad-payroll:    linear-gradient(135deg, #ffe600, #ff8800);
+  --icon-grad-schedule:   linear-gradient(135deg, #ff0055, #a800ff);
+  --icon-grad-analytics:  linear-gradient(135deg, #00ff66, #00a844);
+  --icon-grad-employees:  linear-gradient(135deg, #00f0ff, #ff0055);
+  --icon-grad-leaves:     linear-gradient(135deg, #ffe600, #ff0055);
+  --icon-grad-drive:      linear-gradient(135deg, #00f0ff, #00ff66);
+  --icon-grad-theme:      linear-gradient(135deg, #ff0055, #00f0ff);
+
+  /* Dock */
+  --dock-bg: #06070d;
+  --dock-shadow: 0 -4px 20px rgba(0, 240, 255, 0.3);
+  --dock-border: 1px solid #00f0ff;
+  --dock-border-radius: 8px;
+  --dock-btn-radius: 4px;
+  --dock-btn-bg: #0d1222;
+  --dock-btn-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+  --dock-btn-border: 1px solid #00f0ff;
+  --dock-btn-color: #00f0ff;
+
+  /* Accent */
+  --accent-color: #00f0ff;
+  --accent-glow: rgba(0, 240, 255, 0.8);
+  --accent-gradient: linear-gradient(90deg, #ff0055, #00f0ff);
+  --home-indicator-color: #00f0ff;
+  --modal-bg: #090c14;
+}
+
+body.theme-cyberpunk .app-item:hover .app-icon {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 20px #00f0ff, 0 0 35px #ff0055;
+  border-color: #ffe600;
+}
+
+/* Cyberpunk Scanlines Animation */
+body.theme-cyberpunk .cyberpunk-scanlines {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 240, 255, 0.08) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+  z-index: 99;
+}

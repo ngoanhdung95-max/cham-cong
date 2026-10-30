@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>App Chấm Công Theo Giờ & Multi-Launcher OS</title>
+  
+  <!-- PWA & Mobile Web App Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e293b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Chấm Công">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  
+  <!-- Google Fonts: Inter for modern, Orbitron for Cyberpunk, Quicksand for Cute -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@500;700;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/themes.css">
+</head>
+<body class="theme-skeuomorphic">
+
+  <!-- Ambient Theme Decor Layers (Dynamic Hearts/Clouds, Neon Scanlines, Aurora Glows) -->
+  <div class="theme-ambient-layer" id="themeAmbient">
+    <div class="ambient-decor decor-1"></div>
+    <div class="ambient-decor decor-2"></div>
+    <div class="ambient-decor decor-3"></div>
+    <div class="cyberpunk-scanlines"></div>
+  </div>
+
+  <!-- Main Viewport Container -->
+  <div class="app-viewport">
+    <main class="launcher-shell" id="launcherShell">
+      
+      <!-- Top Device Status Bar -->
+      <header class="status-bar">
+        <div class="status-left">
+          <span class="status-time" id="statusClock">09:41</span>
+          <span class="status-carrier">❤️ Vợ Yêu Đi Làm</span>
+        </div>
+        <div class="status-center">
+          <div class="dynamic-island-indicator" id="driveStatusPill" title="Trạng thái Google Drive Cloud">
+            <span class="sync-dot"></span>
+            <span class="sync-label" id="topSyncLabel">Drive Sync</span>
+          </div>
+        </div>
+        <div class="status-right">
+          <span class="status-icon" title="Wi-Fi">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A16.88 16.88 0 0 0 12 4zm0 4c3.27 0 6.27 1.24 8.54 3.29L12 19.83 3.46 11.29C5.73 9.24 8.73 8 12 8z"/>
+            </svg>
+          </span>
+          <span class="status-icon" title="Pin 99%">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M17 5v14H7V5h10m1-2H6c-.55 0-1 .45-1 1v16c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-3-2h-4c-.55 0-1 .45-1 1v1h6V2c0-.55-.45-1-1-1z"/>
+            </svg>
+          </span>
+          <span class="status-battery-pct">99%</span>
+        </div>
+      </header>
+
+      <!-- Smart Attendance & Clock Hero Widget -->
+      <section class="widget-hero">
+        <div class="hero-card widget-card">
+          <div class="hero-time-group">
+            <div class="time-large" id="heroClock">09:41</div>
+            <div class="time-sub" id="heroDate">Thứ Sáu, 30 Tháng 10</div>
+            <div class="hourly-rate-badge" id="openWageModalBtn" title="Bấm để đổi mức lương theo giờ">
+              💰 <span id="displayHourlyWage">30.000đ</span> / giờ
+            </div>
+          </div>
+          <div class="hero-weather-group">
+            <!-- Big Interactive Punch Button (Vào ca / Tan ca) -->
+            <button class="hero-punch-btn ready" id="mainPunchBtn">
+              <div class="punch-icon-circle">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M12 2v10M18.4 6.6a9 9 0 1 1-12.8 0"></path>
+                </svg>
+              </div>
+              <span class="punch-text" id="punchBtnLabel">BẮT ĐẦU VÀO CA</span>
+              <span class="punch-subtext" id="punchElapsedTimer">Bấm để ghi nhận giờ đến</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Today Summary Card (Thống kê hôm nay) -->
+        <div class="today-summary-strip">
+          <div class="summary-box">
+            <span class="summary-label">Giờ đến hôm nay</span>
+            <strong class="summary-val" id="todayCheckInTime">--:--</strong>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-box">
+            <span class="summary-label">Đã làm</span>
+            <strong class="summary-val text-accent" id="todayWorkedHours">0.0h</strong>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-box">
+            <span class="summary-label">Tạm tính</span>
+            <strong class="summary-val text-success" id="todayEstimatedWage">0 đ</strong>
+          </div>
+        </div>
+
+        <!-- Quick Search Bar -->
+        <div class="launcher-search-bar">
+          <span class="search-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <input type="text" id="launcherSearchInput" placeholder="Tìm ứng dụng, ngày chấm công..." autocomplete="off">
+          <button class="search-clear-btn" id="searchClearBtn" title="Xóa">✕</button>
+        </div>
+      </section>
+
+      <!-- Main Application Grid -->
+      <section class="app-grid-container">
+        <div class="app-grid" id="appGrid">
+          
+          <!-- App 1: Chấm công (Mở bảng chấm công) -->
+          <div class="app-item" data-app-id="attendance-log" id="openLogModalApp" tabindex="0">
+            <div class="app-icon-slot">
+              <div class="app-icon icon-attendance">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <span class="app-badge" id="workStatusBadge">Chưa vào</span>
+            </div>
+            <span class="app-title">Chấm Công</span>
+          </div>
+
+          <!-- App 2: Nhật ký & Bảng Lương -->
+          <div class="app-item" data-app-id="payroll-history" id="openPayrollApp" tabindex="0">
+            <div class="app-icon-slot">
+              <div class="app-icon icon-payroll">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                  <line x1="2" y1="10" x2="22" y2="10"></line>
+                  <path d="M12 14v4M10 16h4"></path>
+                </svg>
+              </div>
+              <span class="app-badge count" id="monthTotalDays">0 ngày</span>
+            </div>
+            <span class="app-title">Bảng Lương</span>
+          </div>
+
+          <!-- App 3: Cài Đặt Mức Lương Theo Giờ -->
+          <div class="app-item" data-app-id="wage-config" id="openWageConfigApp" tabindex="0">
+            <div class="app-icon-slot">
+              <div class="app-icon icon-schedule">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M14.8 9A2 2 0 0 0 13 8h-2a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-2a2 2 0 0 1-1.8-1"></path>
+                  <path d="M12 6v2m0 8v2"></path>
+                </svg>
+              </div>
+            </div>
+            <span class="app-title">Mức Lương/H</span>
+          </div>
+
+          <!-- App 4: Thống Kê & Báo Cáo Tháng -->
+          <div class="app-item" data-app-id="analytics" id="openReportApp" tabindex="0">
+            <div class="app-icon-slot">
+              <div class="app-icon icon-analytics">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              </div>
+            </div>
+            <span class="app-title">Thống Kê</span>
+          </div>
+
+          <!-- App 5: Xuất Báo Cáo Gửi Chủ Quán -->
+          <div class="app-item" data-app-id="export" id="exportReportBtn" tabindex="0">
+            <div class="app-icon-slot">
+              <div class="app-icon icon-employees">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+              </div>
+            </div>
+            <span class="app-title">Xuất Báo Cáo</span>
+          </div>
+
+          <!-- App 6: Ghi Chú & Ca Làm Việc -->
+          <div class="app-item" data-app-id="notes" id="openManualEntryApp" tabindex="0">
+            <div class="app-icon-slot">
+              <div class="app-icon icon-leaves">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </div>
+            </div>
+            <span class="app-title">Ghi Bổ Sung</span>
+          </div>
+
+          <!-- App 7: Google Drive Cloud Sync Manager -->
+          <div class="app-item" data-app-id="cloud-drive" id="appDriveTrigger" tabindex="0">
+            <div class="app-icon-slot">
+              <div class="app-icon icon-drive">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="8.5 2 15.5 2 22 13 15 22 8 22 1.5 13"></polygon>
+                  <line x1="8.5" y1="2" x2="15" y2="22"></line>
+                  <line x1="1.5" y1="13" x2="22" y2="13"></line>
+                </svg>
+              </div>
+              <span class="app-badge sync">Cloud</span>
+            </div>
+            <span class="app-title">Google Drive</span>
+          </div>
+
+          <!-- App 8: Launcher Theme Customizer (5 Giao Diện) -->
+          <div class="app-item" data-app-id="theme-settings" id="appSettingsTrigger" tabindex="0">
+            <div class="app-icon-slot">
+              <div class="app-icon icon-theme">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+              </div>
+              <span class="app-badge gear">Themes</span>
+            </div>
+            <span class="app-title">Đổi Giao Diện</span>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Bottom Pinned Dock Bar -->
+      <footer class="launcher-dock">
+        <div class="dock-inner">
+          
+          <button class="dock-btn" id="dockPunchToggleBtn" title="Bấm vào ca / tan ca">
+            <div class="dock-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M12 2v10M18.4 6.6a9 9 0 1 1-12.8 0"></path>
+              </svg>
+            </div>
+            <span class="dock-label">Vào/Tan ca</span>
+          </button>
+
+          <button class="dock-btn" id="dockLogHistoryBtn" title="Xem nhật ký chấm công">
+            <div class="dock-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <span class="dock-label">Nhật ký</span>
+          </button>
+
+          <button class="dock-btn dock-btn-primary" id="openSettingsBtn" title="Chuyển đổi giao diện Launcher">
+            <div class="dock-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+            </div>
+            <span class="dock-label">Launcher</span>
+          </button>
+
+          <button class="dock-btn" id="openDriveBtn" title="Google Drive Cloud">
+            <div class="dock-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M19 14v5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-5"></path>
+                <polyline points="17 9 12 4 7 9"></polyline>
+                <line x1="12" y1="4" x2="12" y2="17"></line>
+              </svg>
+            </div>
+            <span class="dock-label">Cloud Sync</span>
+          </button>
+
+        </div>
+      </footer>
+
+      <!-- Bottom Home Indicator Bar (Swipe Bar) -->
+      <div class="home-indicator-bar">
+        <div class="indicator-pill"></div>
+      </div>
+
+    </main>
+
+    <!-- Side Tools: Toggle Frame Mode & Quick Info -->
+    <aside class="desktop-controls">
+      <button class="tool-btn" id="toggleFrameModeBtn" title="Chuyển giữa khung Điện thoại và Toàn màn hình">
+        <span class="tool-icon">📱</span>
+        <span class="tool-text">Mở rộng Desktop</span>
+      </button>
+      <div class="active-theme-badge" id="currentThemePill">
+        Giao diện: <strong id="activeThemeName">Launcher 1 (3D / Skeuomorphic)</strong>
+      </div>
+    </aside>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- MODAL 1: BẢNG CÀI ĐẶT LAUNCHER (5 PHONG CÁCH + DRIVE)    -->
+  <!-- ======================================================== -->
+  <div class="modal-backdrop" id="settingsModal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog launcher-settings-modal">
+      
+      <header class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-badge-tag">HỆ THỐNG LAUNCHER</div>
+          <h2 class="modal-title">Chọn Phong Cách Giao Diện</h2>
+          <p class="modal-sub">Chuyển đổi tức thì cấu trúc CSS, độ bóng, hiệu ứng vật lý và màu sắc</p>
+        </div>
+        <button class="modal-close-btn" id="closeSettingsModal" aria-label="Đóng">&times;</button>
+      </header>
+
+      <div class="modal-body">
+        
+        <!-- Tab Switcher -->
+        <div class="settings-tabs">
+          <button class="tab-btn active" data-tab="tab-themes">5 Phong Cách Launcher</button>
+          <button class="tab-btn" data-tab="tab-drive">Lưu Trữ Google Drive</button>
+          <button class="tab-btn" data-tab="tab-about">Về Ứng Dụng</button>
+        </div>
+
+        <!-- TAB 1: 5 LAUNCHER THEME CARDS -->
+        <div class="tab-pane active" id="tab-themes">
+          <div class="theme-picker-grid">
+            
+            <!-- Launcher 1: 3D / Skeuomorphic -->
+            <div class="theme-card" data-theme="theme-skeuomorphic">
+              <div class="theme-preview-box preview-skeuomorphic">
+                <div class="mini-bezel">
+                  <div class="mini-3d-button">3D</div>
+                </div>
+              </div>
+              <div class="theme-meta">
+                <div class="theme-title-row">
+                  <span class="theme-num">01</span>
+                  <h3 class="theme-name">3D Skeuomorphic</h3>
+                </div>
+                <p class="theme-desc">Khối nổi chân thực, hiệu ứng ánh sáng bề mặt (highlight), đổ bóng sâu đa lớp (deep shadows), xúc giác vật lý. Chừa sẵn layout để chèn icon 3D.</p>
+                <div class="theme-tags">
+                  <span class="tag">Giao diện chính</span>
+                  <span class="tag">Khối nổi 3D</span>
+                  <span class="tag">Đổ bóng sâu</span>
+                </div>
+              </div>
+              <div class="theme-select-indicator">
+                <span class="check-icon">✓</span>
+              </div>
+            </div>
+
+            <!-- Launcher 2: Cute & Romantic -->
+            <div class="theme-card" data-theme="theme-cute">
+              <div class="theme-preview-box preview-cute">
+                <div class="mini-cute-heart">💖</div>
+                <div class="mini-cute-cloud">☁️</div>
+                <div class="mini-cute-pill">Bouncy</div>
+              </div>
+              <div class="theme-meta">
+                <div class="theme-title-row">
+                  <span class="theme-num">02</span>
+                  <h3 class="theme-name">Cute & Romantic</h3>
+                </div>
+                <p class="theme-desc">Dành riêng cho vợ yêu: Tone pastel ngọt ngào (hồng phấn, cam đào, trắng trong), góc bo pill-shape tròn mềm, hiệu ứng hover nhún nhảy và trái tim lơ lửng.</p>
+                <div class="theme-tags">
+                  <span class="tag">Pastel Sweet</span>
+                  <span class="tag">Pill-shape</span>
+                  <span class="tag">Bouncy & Hearts</span>
+                </div>
+              </div>
+              <div class="theme-select-indicator">
+                <span class="check-icon">✓</span>
+              </div>
+            </div>
+
+            <!-- Launcher 3: Glassmorphism -->
+            <div class="theme-card" data-theme="theme-glassmorphism">
+              <div class="theme-preview-box preview-glass">
+                <div class="mini-glass-circle-1"></div>
+                <div class="mini-glass-circle-2"></div>
+                <div class="mini-glass-card">Frosted</div>
+              </div>
+              <div class="theme-meta">
+                <div class="theme-title-row">
+                  <span class="theme-num">03</span>
+                  <h3 class="theme-name">Glassmorphism</h3>
+                </div>
+                <p class="theme-desc">Hiệu ứng kính mờ tinh xảo (backdrop-filter: blur), viền sáng mỏng xuyên thấu, ánh sáng cực quang đa chiều.</p>
+                <div class="theme-tags">
+                  <span class="tag">Backdrop Blur</span>
+                  <span class="tag">Kính mờ xuyên thấu</span>
+                  <span class="tag">Viền sáng mỏng</span>
+                </div>
+              </div>
+              <div class="theme-select-indicator">
+                <span class="check-icon">✓</span>
+              </div>
+            </div>
+
+            <!-- Launcher 4: Neumorphism -->
+            <div class="theme-card" data-theme="theme-neumorphism">
+              <div class="theme-preview-box preview-neumorphic">
+                <div class="mini-neu-raised">Nổi</div>
+                <div class="mini-neu-sunken">Chìm</div>
+              </div>
+              <div class="theme-meta">
+                <div class="theme-title-row">
+                  <span class="theme-num">04</span>
+                  <h3 class="theme-name">Neumorphism (Soft UI)</h3>
+                </div>
+                <p class="theme-desc">Giao diện dập nổi / khoét chìm mịn màng, tương tác ánh sáng kép 2 hướng tạo cảm giác bề mặt vật lý mềm mịn không tì vết.</p>
+                <div class="theme-tags">
+                  <span class="tag">Dập nổi / Khoét chìm</span>
+                  <span class="tag">Bề mặt mịn màng</span>
+                  <span class="tag">Soft Extrude</span>
+                </div>
+              </div>
+              <div class="theme-select-indicator">
+                <span class="check-icon">✓</span>
+              </div>
+            </div>
+
+            <!-- Launcher 5: Cyberpunk Dark Mode -->
+            <div class="theme-card" data-theme="theme-cyberpunk">
+              <div class="theme-preview-box preview-cyberpunk">
+                <div class="mini-cyber-neon">NEON</div>
+              </div>
+              <div class="theme-meta">
+                <div class="theme-title-row">
+                  <span class="theme-num">05</span>
+                  <h3 class="theme-name">Cyberpunk Dark Mode</h3>
+                </div>
+                <p class="theme-desc">Neon sáng rực (Cyan & Magenta), nền đen tuyền OLED tuyệt đối, viền chói lóa công nghệ và hiệu ứng scanline quét màn hình.</p>
+                <div class="theme-tags">
+                  <span class="tag">Neon sáng rực</span>
+                  <span class="tag">Nền đen tuyền</span>
+                  <span class="tag">Viền chói sắc sảo</span>
+                </div>
+              </div>
+              <div class="theme-select-indicator">
+                <span class="check-icon">✓</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB 2: GOOGLE DRIVE CLOUD SYNC -->
+        <div class="tab-pane" id="tab-drive">
+          <div class="drive-settings-panel">
+            
+            <div class="drive-status-banner" id="driveConnectionBanner">
+              <div class="banner-icon">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor">
+                  <polygon points="8.5 2 15.5 2 22 13 15 22 8 22 1.5 13"></polygon>
+                  <line x1="8.5" y1="2" x2="15" y2="22"></line>
+                  <line x1="1.5" y1="13" x2="22" y2="13"></line>
+                </svg>
+              </div>
+              <div class="banner-text">
+                <h4 id="driveStatusHeading">Google Drive: Đang ở chế độ Lưu Cục Bộ (LocalStorage)</h4>
+                <p id="driveStatusSub">Dữ liệu chấm công của vợ bạn được lưu tự động trên máy. Kết nối Google Drive để đồng bộ đám mây chống mất dữ liệu.</p>
+              </div>
+              <button class="primary-btn" id="connectGoogleDriveBtn">
+                <span>Kết Nối Google Drive</span>
+              </button>
+            </div>
+
+            <div class="drive-config-section">
+              <h4 class="section-title">Lưu Trữ Ẩn An Toàn (Google Drive AppDataFolder)</h4>
+              <p class="section-desc">Hệ thống lưu file <code>cham_cong_data.json</code> trong thư mục ứng dụng bí mật trên Google Drive (chỉ app này đọc được, không bị rác thùng thư Drive).</p>
+              
+              <div class="form-group">
+                <label for="googleClientId">Google OAuth 2.0 Client ID (Tùy chọn):</label>
+                <input type="text" id="googleClientId" placeholder="Ví dụ: 123456789-xxx.apps.googleusercontent.com" class="text-input">
+                <small class="form-hint">Nếu chưa cấu hình Client ID, bạn vẫn có thể dùng nút <strong>Xuất / Nhập JSON</strong> bên dưới để sao lưu tức thì mà không cần cài đặt gì thêm!</small>
+              </div>
+
+              <div class="drive-action-buttons">
+                <button class="action-btn" id="btnSaveConfig">
+                  <span>💾 Lưu Client ID</span>
+                </button>
+                <button class="action-btn" id="btnBackupNow">
+                  <span>☁️ Sao Lưu Lên Drive</span>
+                </button>
+                <button class="action-btn" id="btnRestoreNow">
+                  <span>📥 Tải Từ Drive Xuống</span>
+                </button>
+                <button class="action-btn danger" id="btnExportLocalJson">
+                  <span>📄 Tải File JSON Dự Phòng</span>
+                </button>
+                <button class="action-btn" id="btnImportLocalJsonTrigger">
+                  <span>📂 Nhập File JSON Vào Máy</span>
+                </button>
+                <input type="file" id="importJsonFileInput" accept=".json" style="display:none;">
+              </div>
+
+              <div class="drive-log-console">
+                <div class="log-title">Nhật ký đồng bộ (Cloud Sync Console):</div>
+                <div class="log-content" id="driveSyncLog">
+                  [Sẵn sàng] Khởi tạo hệ thống lưu trữ... LocalStorage đã kích hoạt.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB 3: GIỚI THIỆU HỆ THỐNG -->
+        <div class="tab-pane" id="tab-about">
+          <div class="about-panel">
+            <h3>App Chấm Công Theo Giờ & Multi-Launcher OS</h3>
+            <p>Ứng dụng được lập trình đặc biệt để tính tiền làm thêm theo tiếng cho vợ yêu, kết hợp hệ thống 5 Launcher công thái học:</p>
+            <ul>
+              <li><strong>Chấm công chính xác:</strong> Ghi nhận giờ đến, giờ về, tự động tính tổng giờ làm và nhân với mức lương/giờ.</li>
+              <li><strong>Chuyển đổi 5 Launcher:</strong> Thay đổi toàn bộ layout, màu sắc, hiệu ứng vật lý chỉ bằng 1 chạm.</li>
+              <li><strong>Không sợ mất dữ liệu:</strong> Tự động lưu LocalStorage và hỗ trợ sao lưu qua Google Drive API hoặc tải file JSON.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <footer class="modal-footer">
+        <span class="active-tag-info" id="footerActiveThemeInfo">Đang chọn: 3D Skeuomorphic</span>
+        <button class="primary-btn" id="confirmThemeBtn">Áp Dụng & Đóng</button>
+      </footer>
+
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- MODAL 2: NHẬT KÝ CHẤM CÔNG & THÊM GIỜ THỦ CÔNG          -->
+  <!-- ======================================================== -->
+  <div class="modal-backdrop" id="logModal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog attendance-modal">
+      
+      <header class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-badge-tag">NHẬT KÝ LÀM THÊM</div>
+          <h2 class="modal-title">Bảng Chấm Công Hằng Ngày</h2>
+          <p class="modal-sub">Danh sách giờ đến, giờ về và tổng tiền công của vợ</p>
+        </div>
+        <button class="modal-close-btn" id="closeLogModal" aria-label="Đóng">&times;</button>
+      </header>
+
+      <div class="modal-body">
+        
+        <!-- Action Row: Thêm thủ công & Tổng tháng -->
+        <div class="log-summary-header">
+          <div class="month-stat-box">
+            <span class="stat-title">Tổng giờ tháng này</span>
+            <span class="stat-number text-accent" id="modalMonthHours">0.0 giờ</span>
+          </div>
+          <div class="month-stat-box">
+            <span class="stat-title">Tổng tiền lương nhận</span>
+            <span class="stat-number text-success" id="modalMonthWage">0 đ</span>
+          </div>
+          <button class="primary-btn" id="btnToggleManualForm">
+            <span>+ Ghi Công Bổ Sung</span>
+          </button>
+        </div>
+
+        <!-- Manual Entry Form (Ẩn/Hiện) -->
+        <div class="manual-entry-card" id="manualEntryForm" style="display: none;">
+          <h4 class="form-title">Ghi Nhận Giờ Làm Bổ Sung (Khi Quên Bấm)</h4>
+          <div class="manual-grid">
+            <div class="form-group">
+              <label for="manualDate">Ngày đi làm:</label>
+              <input type="date" id="manualDate" class="text-input">
+            </div>
+            <div class="form-group">
+              <label for="manualTimeIn">Giờ đến (Check-in):</label>
+              <input type="time" id="manualTimeIn" class="text-input" value="08:00">
+            </div>
+            <div class="form-group">
+              <label for="manualTimeOut">Giờ về (Check-out):</label>
+              <input type="time" id="manualTimeOut" class="text-input" value="12:00">
+            </div>
+            <div class="form-group">
+              <label for="manualWageRate">Mức lương (đ/giờ):</label>
+              <input type="number" id="manualWageRate" class="text-input" value="30000" step="1000">
+            </div>
+            <div class="form-group full-width">
+              <label for="manualNote">Ghi chú (Ví dụ: Ca sáng, Tăng ca dọn dẹp, Tiền tip...):</label>
+              <input type="text" id="manualNote" class="text-input" placeholder="Ghi chú ca làm...">
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="action-btn" id="btnCancelManual">Hủy</button>
+            <button class="primary-btn" id="btnSaveManualEntry">Lưu Nhật Ký</button>
+          </div>
+        </div>
+
+        <!-- Attendance Table -->
+        <div class="table-responsive">
+          <table class="attendance-table">
+            <thead>
+              <tr>
+                <th>Ngày</th>
+                <th>Giờ Đến</th>
+                <th>Giờ Về</th>
+                <th>Tổng Giờ</th>
+                <th>Mức Lương/H</th>
+                <th>Thành Tiền</th>
+                <th>Ghi Chú</th>
+                <th>Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody id="attendanceTableBody">
+              <!-- Dynamically populated via JS -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <footer class="modal-footer">
+        <button class="action-btn danger" id="btnClearAllLogs">Xóa Toàn Bộ Lịch Sử</button>
+        <button class="primary-btn" id="btnCloseLogModalFooter">Đóng Bảng Công</button>
+      </footer>
+
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- MODAL 3: CÀI ĐẶT MỨC LƯƠNG THEO GIỜ                    -->
+  <!-- ======================================================== -->
+  <div class="modal-backdrop" id="wageModal" aria-hidden="true" role="dialog">
+    <div class="modal-dialog small-dialog">
+      
+      <header class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-badge-tag">CẤU HÌNH LƯƠNG</div>
+          <h2 class="modal-title">Cài Đặt Mức Lương/Giờ</h2>
+          <p class="modal-sub">Mức tiền tính theo mỗi tiếng làm việc của vợ</p>
+        </div>
+        <button class="modal-close-btn" id="closeWageModal" aria-label="Đóng">&times;</button>
+      </header>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="hourlyWageInput">Số tiền mỗi giờ (VNĐ):</label>
+          <input type="number" id="hourlyWageInput" class="text-input wage-input" value="30000" step="1000">
+          <small class="form-hint">Ví dụ: 25.000, 30.000, 45.000... Mức lương này sẽ tự áp dụng cho các ca làm mới.</small>
+        </div>
+
+        <div class="quick-wage-presets">
+          <span class="preset-label">Chọn nhanh:</span>
+          <button class="preset-btn" data-wage="25000">25.000đ</button>
+          <button class="preset-btn" data-wage="30000">30.000đ</button>
+          <button class="preset-btn" data-wage="35000">35.000đ</button>
+          <button class="preset-btn" data-wage="50000">50.000đ</button>
+        </div>
+      </div>
+
+      <footer class="modal-footer">
+        <button class="action-btn" id="btnCancelWage">Hủy</button>
+        <button class="primary-btn" id="btnSaveHourlyWage">Lưu Mức Lương</button>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Alert -->
+  <div class="toast-notification" id="toastNotification" aria-live="polite">
+    <span class="toast-icon">✨</span>
+    <span class="toast-message" id="toastMessage">Đã cập nhật hệ thống!</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/google-drive.js"></script>
+  <script src="js/launcher.js"></script>
+  <script>
+    // Đăng ký Progressive Web App Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('[PWA] Service Worker đã kích hoạt:', reg.scope))
+          .catch((err) => console.log('[PWA] Lỗi Service Worker:', err));
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "App Chấm Công Theo Giờ - Vợ Yêu",
+  "short_name": "Chấm Công",
+  "description": "Ứng dụng chấm công theo giờ hằng ngày với 5 phong cách Launcher và đồng bộ Google Drive",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
